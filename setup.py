@@ -90,8 +90,8 @@ def stats():
 
 inicializar()
 limpiar()
-animacion()
+animacion('Prueba')
 botones()
-imagen()
+imagen('prueba.png')
 shapes()
 stats()
