@@ -16,22 +16,35 @@
 # #           Descripción           # #
 #######################################
 
+
 #######################################
 # #       Importar Librerías        # #
 #######################################
-import time  # Importamos la libreria time --> time.sleep
-import os  # Importamos la libreria para comandos de la consola/shell
-import random  # Genera números aleatorios --> random.randrange(1,100)
-# import nombre_libreria as nuevo_nombre_libreria
+import time
+import Adafruit_GPIO.SPI as SPI
+import Adafruit_SSD1306
+from PIL import Image
+
 
 #######################################
 # #             Variables           # #
 #######################################
-sleep = time.sleep
+RST = 24  # Raspberry Pi pin configuration:
+disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
+
 
 #######################################
 # #             Funciones           # #
 #######################################
+
+
+def inicializar():
+    disp.begin()
+
+
+def limpiar():
+    disp.clear()
+    disp.display()
 
 
 def animacion(letras):
@@ -42,8 +55,29 @@ def botones():
     pass
 
 
-def imagen(image):
-    pass
+def imagen(ruta):
+    """
+    Recibe la ruta de la imagen a pintar en pantalla.
+    Primero la convertirá a 1bit de color y luego la mostrará por pantalla.
+    """
+
+    # TODO → Comprobar si existe la imagen en el sistema de archivos
+    existe = True
+
+    # Si existe la imagen se muestra, en caso contrario no hace nada.
+    if existe:
+        image = Image.open(ruta).resize(
+            (disp.width, disp.height),
+            Image.ANTIALIAS).convert('1')
+    else:
+        return False
+
+    # Mostrar imagen tras limpiar pantalla
+    limpiar()
+    disp.image(image)
+    disp.display()
+
+    return True
 
 
 def shapes():
@@ -52,3 +86,12 @@ def shapes():
 
 def stats():
     pass
+
+
+inicializar()
+limpiar()
+animacion()
+botones()
+imagen()
+shapes()
+stats()
