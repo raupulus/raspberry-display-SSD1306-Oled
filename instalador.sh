@@ -16,6 +16,11 @@
 ############################
 ##     INSTRUCCIONES      ##
 ############################
+## Este script tiene como objetivo preparar el sistema operativo instalando
+## python y todas sus dependencias.
+##
+## Una vez instalado pyhton instalará mediante pip las librerías necesarias
+## para usar la pantalla Oled de 128x64 píxeles con el chip SSD1306.
 
 ############################
 ##     IMPORTACIONES      ##
