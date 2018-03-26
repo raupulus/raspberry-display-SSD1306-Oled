@@ -19,12 +19,21 @@ Se necesitan las siguientes herramientas (pero no se limita a ellas):
 -   I2C Habilitado
 -   4 cables conectados a 3.3v, GND, SDA1I2c y SCL1I2C
 
-## Instalar este Repositorio
+## Obtener este Repositorio
 
-Una vez tenemos las dependencias resueltas con los dos comandos anteriores, ya podemos clonar este repositorio y probar la pantalla:
+Para poder clonar el repositorio en su dispositivo Raspberry PI necesita tener
+git instalado en el equipo, eso se hace con:
 
 ```bash
-  git clone <https://github.com/fryntiz/Display-Oled-SSD1306.git> $HOME/Display-Oled-SSD1306
+    sudo apt install git
+```
+
+También es posible descargar directamente el zip desde la interfaz web.
+
+Para  clonar este repositorio una vez disponemos de **git** en el sistema:
+
+```bash
+    git clone https://github.com/fryntiz/Display-Oled-SSD1306.git $HOME/Display-Oled-SSD1306
 ```
 
 Este comando dejará en el directorio personal del usuario que lo ejecute la librería descargada, ya solo tenemos que acceder a ella y ejecutarla.
