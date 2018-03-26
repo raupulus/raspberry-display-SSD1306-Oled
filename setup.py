@@ -100,6 +100,8 @@ def animacion(texto):
 
     limpiar()
 
+    pos = width
+
     while True:
         # Borra la pantalla antes de pintar.
         draw.rectangle((0,0,width,height), outline=0, fill=0)
