@@ -118,19 +118,11 @@ def informacion():
     cmd = "df -h | awk '$NF==\"/\"{printf \"HDD: %d/%dGB %s\", $3,$2,$5}'"
     HDD = subprocess.check_output(cmd, shell=True)
 
-    ############################
-    #        DEPURANDO
-    ############################
-    print(IP)
-    print(CPU)
-    print(RAM)
-    print(HDD)
-
     # Crear el dibujo renderizando el texto
     draw.text((x, top),       "IP: " + sanear(IP),  font=font, fill=255)
-    draw.text((x, top+8),     str(CPU), font=font, fill=255)
-    draw.text((x, top+16),    str(RAM),  font=font, fill=255)
-    draw.text((x, top+25),    str(HDD),  font=font, fill=255)
+    draw.text((x, top+8),     sanear(CPU), font=font, fill=255)
+    draw.text((x, top+16),    sanear(RAM),  font=font, fill=255)
+    draw.text((x, top+25),    sanear(HDD),  font=font, fill=255)
 
     # Mostrar imagen tras limpiar pantalla
     limpiar()
