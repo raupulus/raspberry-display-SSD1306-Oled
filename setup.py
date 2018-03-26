@@ -21,10 +21,12 @@
 # #       Importar Librerías        # #
 #######################################
 import time
+import subprocess
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
 from PIL import Image
-
+from PIL import ImageDraw
+from PIL import ImageFont
 
 #######################################
 # #             Variables           # #
@@ -48,10 +50,6 @@ def limpiar():
 
 
 def animacion(letras):
-    pass
-
-
-def botones():
     pass
 
 
@@ -80,18 +78,54 @@ def imagen(ruta):
     return True
 
 
-def shapes():
-    pass
+def informacion():
+    # Creo constantes
+    width = disp.width
+    height = disp.height
+    padding = -2
+    top = padding
+    bottom = height-padding
+    x = 0  # Registra la posición actual
 
+    # Creo una imagen vacía con un 1 bit de color
+    image = Image.new('1', (width, height))
 
-def stats():
-    pass
+    # Cargo la fuente
+    font = ImageFont.load_default()
+    # font = ImageFont.truetype('Minecraftia.ttf', 8)
+
+    # Obtengo información del sistema
+    cmd = "hostname -I | cut -d \' \' -f1"
+    IP = subprocess.check_output(cmd, shell=True)
+    cmd = "top -bn1 | grep load | awk '{printf \"CPU Load: %.2f\", $(NF-2)}'"
+    CPU = subprocess.check_output(cmd, shell=True)
+    cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
+    RAM = subprocess.check_output(cmd, shell=True)
+    cmd = "df -h | awk '$NF==\"/\"{printf \"HDD: %d/%dGB %s\", $3,$2,$5}'"
+    HDD = subprocess.check_output(cmd, shell=True)
+
+    ############################
+    #        DEPURANDO
+    ############################
+    print(IP)
+    print(CPU)
+    print(RAM)
+    print(HDD)
+
+    # Crear el dibujo renderizando el texto
+    draw.text((x, top),       "IP: " + str(IP),  font=font, fill=255)
+    draw.text((x, top+8),     str(CPU), font=font, fill=255)
+    draw.text((x, top+16),    str(RAM),  font=font, fill=255)
+    draw.text((x, top+25),    str(HDD),  font=font, fill=255)
+
+    # Mostrar imagen tras limpiar pantalla
+    limpiar()
+    disp.image(image)
+    disp.display()
 
 
 inicializar()
 limpiar()
 animacion('Prueba')
-botones()
 imagen('prueba.png')
-shapes()
-stats()
+informacion()
