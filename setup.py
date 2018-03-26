@@ -59,7 +59,7 @@ def sanear(limpiame):
     """
 
     x = str(limpiame).replace('b\'', '').replace('\\n\'', '')
-    x = str(x).replace('b\"', "").replace('\n\"', '')
+    x = str(x).replace('b\"', "").replace('\n', '').replace('\n\"', '')
 
     # Reemplazo todas las comillas dobles, simples y otras que puedan quedar
     x = str(x).replace('\'', '').replace('\"', '').replace('\'´', '')
