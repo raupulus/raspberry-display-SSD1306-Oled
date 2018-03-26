@@ -103,37 +103,41 @@ def animacion(texto):
     pos = startpos
 
     limpiar()
-    x = pos
-    for i, c in enumerate(text):
-        # Al llegar al borde de la pantalla parar
-        if x > width:
-            break
+    while True:
+        x = pos
+        for i, c in enumerate(texto):
+            # Al llegar al borde de la pantalla parar
+            if x > width:
+                break
 
-        # Calcula el ancho pero no dibuja si excede el ancho de la pantalla
-        if x < -10:
+            # Calcula el ancho pero no dibuja si excede el ancho de la pantalla
+            if x < -10:
+                char_width, char_height = draw.textsize(c, font=font)
+                x += char_width
+                continue
+
+            # Calcular el desplazamiento de la onda sinusoidal.
+            y = offset+math.floor(amplitude*math.sin(x/float(width)*2.0*math.pi))
+
+            # Pinta el texto en su lugar.
+            draw.text((x, y), c, font=font, fill=255)
+
+            # Incremente la posición x en función del ancho del carácter.
             char_width, char_height = draw.textsize(c, font=font)
             x += char_width
-            continue
 
-        # Calcular el desplazamiento de la onda sinusoidal.
-        y = offset+math.floor(amplitude*math.sin(x/float(width)*2.0*math.pi))
+        # Draw the image buffer.
+        disp.image(image)
+        disp.display()
 
-        # Pinta el texto en su lugar.
-        draw.text((x, y), c, font=font, fill=255)
+        # Mueve la posición para la próxima imagen.
+        pos += velocity
+        # Start over if text has scrolled completely off left side of screen.
+        if pos < -maxwidth:
+            pos = startpos
 
-        # Incremente la posición x en función del ancho del carácter.
-        char_width, char_height = draw.textsize(c, font=font)
-        x += char_width
-
-    # Draw the image buffer.
-    disp.image(image)
-    disp.display()
-
-    # Mueve la posición para la próxima imagen.
-    pos += velocity
-    # Start over if text has scrolled completely off left side of screen.
-    if pos < -maxwidth:
-        pos = startpos
+        # Pauso antes de pintar el siguiente frame
+        time.sleep(0.1)
 
 
 def imagen(ruta):
