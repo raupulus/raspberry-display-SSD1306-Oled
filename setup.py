@@ -20,10 +20,13 @@
 #######################################
 # #       Importar Librerías        # #
 #######################################
-import time
+import math
 import subprocess
+import time
+
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
+
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
@@ -31,7 +34,7 @@ from PIL import ImageFont
 #######################################
 # #             Variables           # #
 #######################################
-RST = 24  # Raspberry Pi pin configuration:
+RST = 24  # Raspberry Pi pin de configuracion
 disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
 
 
@@ -89,6 +92,9 @@ def informacion():
 
     # Creo una imagen vacía con un 1 bit de color
     image = Image.new('1', (width, height))
+
+    # Creo objeto sobre el que dibujar a partir de la imagen vacía
+    draw = ImageDraw.Draw(image)
 
     # Cargo la fuente
     font = ImageFont.load_default()
