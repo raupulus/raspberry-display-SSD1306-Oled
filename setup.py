@@ -57,8 +57,12 @@ def sanear(limpiame):
     Recibe algo y lo intenta transformar a string limpiando carácteres
     no deseados que pueda contener y devuelve un String limpio.
     """
+
     x = str(limpiame).replace('b\'', '').replace('\\n\'', '')
-    x = str(x).replace('b\"', "").replace('\´', '').replace('\n\','')
+    x = str(x).replace('b\"', "").replace('\n\"', '')
+
+    # Reemplazo todas las comillas dobles, simples y otras que puedan quedar
+    x = str(x).replace('\'', '').replace('\"', '').replace('\'´', '')
 
     return x
 
