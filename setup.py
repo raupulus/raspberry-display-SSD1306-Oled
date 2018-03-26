@@ -34,5 +34,21 @@ sleep = time.sleep
 #######################################
 
 
-def mifuncion():
+def animacion(letras):
+    pass
+
+
+def botones():
+    pass
+
+
+def imagen(image):
+    pass
+
+
+def shapes():
+    pass
+
+
+def stats():
     pass
