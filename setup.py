@@ -93,24 +93,24 @@ def animacion(texto):
 
     maxwidth, unused = draw.textsize(texto, font=font)
 
-    # Set animation and sine wave parameters.
+    # Parámetros para definir el tipo de animación
     amplitude = height/4
     offset = height/2 - 4
     velocity = -2
-    startpos = width
-
-    # Animate text moving in sine wave.
-    pos = startpos
 
     limpiar()
+
     while True:
-        x = pos
+        # Borra la pantalla antes de pintar.
+        draw.rectangle((0,0,width,height), outline=0, fill=0)
+
+        x = width
         for i, c in enumerate(texto):
-            # Al llegar al borde de la pantalla parar
+            # Al llegar al borde de la pantalla parar.
             if x > width:
                 break
 
-            # Calcula el ancho pero no dibuja si excede el ancho de la pantalla
+            # Calcula el ancho pero no dibuja si excede el ancho de la pantalla.
             if x < -10:
                 char_width, char_height = draw.textsize(c, font=font)
                 x += char_width
@@ -126,17 +126,18 @@ def animacion(texto):
             char_width, char_height = draw.textsize(c, font=font)
             x += char_width
 
-        # Draw the image buffer.
+        # Mostrar imagen.
         disp.image(image)
         disp.display()
 
         # Mueve la posición para la próxima imagen.
         pos += velocity
-        # Start over if text has scrolled completely off left side of screen.
-        if pos < -maxwidth:
-            pos = startpos
 
-        # Pauso antes de pintar el siguiente frame
+        # Cuando el texto se desplaza completamente se termina.
+        if pos < -maxwidth:
+            break
+
+        # Pauso antes de pintar el siguiente frame.
         time.sleep(0.1)
 
 
