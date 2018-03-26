@@ -52,6 +52,14 @@ def limpiar():
     disp.display()
 
 
+def sanear(limpiame):
+    """
+    Recibe algo y lo intenta transformar a string limpiando carácteres
+    no deseados que pueda contener y devuelve un String limpio.
+    """
+    return str(limpiame).replace('b\'', '').replace('\\n\'', '')
+
+
 def animacion(letras):
     pass
 
@@ -119,7 +127,7 @@ def informacion():
     print(HDD)
 
     # Crear el dibujo renderizando el texto
-    draw.text((x, top),       "IP: " + str(IP),  font=font, fill=255)
+    draw.text((x, top),       "IP: " + sanear(IP),  font=font, fill=255)
     draw.text((x, top+8),     str(CPU), font=font, fill=255)
     draw.text((x, top+16),    str(RAM),  font=font, fill=255)
     draw.text((x, top+25),    str(HDD),  font=font, fill=255)
