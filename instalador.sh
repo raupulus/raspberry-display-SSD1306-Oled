@@ -23,10 +23,6 @@
 ## para usar la pantalla Oled de 128x64 píxeles con el chip SSD1306.
 
 ############################
-##     IMPORTACIONES      ##
-############################
-
-############################
 ##       CONSTANTES       ##
 ############################
 AM="\033[1;33m"  ## Color Amarillo
@@ -38,13 +34,9 @@ VERSION="0.0.1"
 WORKSCRIPT=$PWD  ## Directorio principal del script
 USER=$(whoami)   ## Usuario que ejecuta el script
 
-###########################
-##       VARIABLES       ##
-###########################
-
-###########################
-##       FUNCIONES       ##
-###########################
+############################
+##       FUNCIONES        ##
+############################
 ##
 ## Pinta la versión e información del script
 ##
@@ -55,28 +47,38 @@ version() {
 }
 
 ##
-## Instala las dependencias para python
-##
-dependencias() {
-    echo -e "$VE Instalando dependencias para$RO Raspbian$CL"
-}
-
-##
 ## Instala Python
 ##
 instalarPython() {
     echo -e "$VE Instalando versiones de python$CL"
+    sudo apt install python3
+    sudo apt install python
+}
+
+##
+## Instala las dependencias para python
+##
+dependencias() {
+    echo -e "$VE Instalando dependencias para$RO Raspbian$CL"
+    sudo apt install git python3-pip python3-rpi.gpio -y
+    sudo apt install git python-pip python-rpi.gpio -y
 }
 
 ##
 ## Instala las librerías necesarias para trabajar con la pantalla oled
+##
 librerias() {
     echo -e "$VE Instalando librerías de python mediante$RO pip$CL"
+    sudo pip3 install Adafruit_SSD1306 Adafruit_GPIO Pillow RPi
+    sudo pip install Adafruit_SSD1306 Adafruit_GPIO Pillow RPi
 }
 
-###########################
-##       EJECUCIÓN       ##
-###########################
-
+############################
+##       EJECUCIÓN        ##
+############################
+version
+instalarPython
+dependencias
+librerias
 
 exit 0
