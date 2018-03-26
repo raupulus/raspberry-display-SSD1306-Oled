@@ -106,23 +106,31 @@ def informacion():
 
     # Cargo la fuente
     font = ImageFont.load_default()
-    # font = ImageFont.truetype('Minecraftia.ttf', 8)
+    # font = ImageFont.truetype('mifuente.ttf', 8)
 
     # Obtengo información del sistema
     cmd = "hostname -I | cut -d \' \' -f1"
     IP = subprocess.check_output(cmd, shell=True)
+
     cmd = "top -bn1 | grep load | awk '{printf \"CPU Load: %.2f\", $(NF-2)}'"
     CPU = subprocess.check_output(cmd, shell=True)
+
     cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
     RAM = subprocess.check_output(cmd, shell=True)
+
     cmd = "df -h | awk '$NF==\"/\"{printf \"HDD: %d/%dGB %s\", $3,$2,$5}'"
     HDD = subprocess.check_output(cmd, shell=True)
 
+    cmd = 'vcgencmd measure_temp'
+    TMP = str(subprocess.check_output(cmd, shell=True)).replace('temp=', '')
+    TMP = str(TMP).replace('\'C', '')
+
     # Crear el dibujo renderizando el texto
-    draw.text((x, top),       "IP: " + sanear(IP),  font=font, fill=255)
-    draw.text((x, top+8),     sanear(CPU), font=font, fill=255)
-    draw.text((x, top+16),    sanear(RAM),  font=font, fill=255)
-    draw.text((x, top+25),    sanear(HDD),  font=font, fill=255)
+    draw.text((x, top),    'IP: ' + sanear(IP),  font=font, fill=255)
+    draw.text((x, top+8),  sanear(CPU), font=font, fill=255)
+    draw.text((x, top+16), sanear(RAM),  font=font, fill=255)
+    draw.text((x, top+24), sanear(HDD),  font=font, fill=255)
+    draw.text((x, top+32), 'Temperatura: ' + sanear(TMP),  font=font, fill=255)
 
     # Mostrar imagen tras limpiar pantalla
     limpiar()
