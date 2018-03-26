@@ -57,7 +57,10 @@ def sanear(limpiame):
     Recibe algo y lo intenta transformar a string limpiando carácteres
     no deseados que pueda contener y devuelve un String limpio.
     """
-    return str(limpiame).replace('b\'', '').replace('\\n\'', '')
+    x = str(limpiame).replace('b\'', '').replace('\\n\'', '')
+    x = str(x).replace('b\"', "").replace('\´', '').replace('\n\','')
+
+    return x
 
 
 def animacion(letras):
