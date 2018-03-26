@@ -60,13 +60,13 @@ dependencias.
 Instalamos Git para poder clonar repositorio y además instalamos el gestor de paquetes pip y la librería de acceso a GPIO para python3
 
 ```bash
-  sudo apt install git python3-rpi.gpio python3-pip
+    sudo apt install python3-rpi.gpio python3-pip
 ```
 
 Ahora instalamos los paquetes para controlar la pantalla y manipular imágenes:
 
 ```bash
-  pip3 install Adafruit_SSD1306 Adafruit_GPIO Pillow RPi
+    pip3 install Adafruit_SSD1306 Adafruit_GPIO Pillow RPi
 ```
 
 ## Librerías originales utilizadas
