@@ -31,11 +31,22 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 
+
+#######################################
+# #            Constantes           # #
+#######################################
+RST = 24  # Pin de configuracion para la Raspberry Pi
+disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)  # Creo objeto controlador
+width = disp.width    # Ancho de la pantalla
+height = disp.height  # Alto de la pantalla
+
+font = ImageFont.load_default()  # Cargo la fuente
+# font = ImageFont.truetype('mifuente.ttf', 8)
+
+
 #######################################
 # #             Variables           # #
 #######################################
-RST = 24  # Raspberry Pi pin de configuracion
-disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
 
 
 #######################################
@@ -52,13 +63,13 @@ def limpiar():
     disp.display()
 
 
-def sanear(limpiame):
+def sanear(limpiar):
     """
     Recibe algo y lo intenta transformar a string limpiando carácteres
     no deseados que pueda contener y devuelve un String limpio.
     """
 
-    x = str(limpiame).replace('b\'', '').replace('\\n\'', '').replace('\\n','')
+    x = str(limpiar).replace('b\'', '').replace('\\n\'', '').replace('\\n', '')
     x = str(x).replace('b\"', "").replace('\n', '').replace('\n\"', '')
 
     # Reemplazo todas las comillas dobles, simples y otras que puedan quedar
@@ -67,8 +78,62 @@ def sanear(limpiame):
     return x
 
 
-def animacion(letras):
-    pass
+def animacion(texto):
+    """
+    Recibe una cadena (o algo que se pueda transformar a cadena) y la muestra
+    por la pantalla en forma de animación según los parámetros que pasamos a
+    la función.
+    """
+
+    # Crea una nueva imagen del tamaño de la pantalla con 1 bit de color
+    image = Image.new('1', (width, height))
+
+    # Creo objeto sobre el que dibujar a partir de la imagen vacía
+    draw = ImageDraw.Draw(image)
+
+    maxwidth, unused = draw.textsize(texto, font=font)
+
+    # Set animation and sine wave parameters.
+    amplitude = height/4
+    offset = height/2 - 4
+    velocity = -2
+    startpos = width
+
+    # Animate text moving in sine wave.
+    pos = startpos
+
+    limpiar()
+    x = pos
+    for i, c in enumerate(text):
+        # Al llegar al borde de la pantalla parar
+        if x > width:
+            break
+
+        # Calcula el ancho pero no dibuja si excede el ancho de la pantalla
+        if x < -10:
+            char_width, char_height = draw.textsize(c, font=font)
+            x += char_width
+            continue
+
+        # Calcular el desplazamiento de la onda sinusoidal.
+        y = offset+math.floor(amplitude*math.sin(x/float(width)*2.0*math.pi))
+
+        # Pinta el texto en su lugar.
+        draw.text((x, y), c, font=font, fill=255)
+
+        # Incremente la posición x en función del ancho del carácter.
+        char_width, char_height = draw.textsize(c, font=font)
+        x += char_width
+
+    # Draw the image buffer.
+    disp.image(image)
+    disp.display()
+
+    # Mueve la posición para la próxima imagen.
+    pos += velocity
+    # Start over if text has scrolled completely off left side of screen.
+    if pos < -maxwidth:
+        pos = startpos
 
 
 def imagen(ruta):
@@ -83,7 +148,7 @@ def imagen(ruta):
     # Si existe la imagen se muestra, en caso contrario no hace nada.
     if existe:
         image = Image.open(ruta).resize(
-            (disp.width, disp.height),
+            (width, height),
             Image.ANTIALIAS).convert('1')
     else:
         return False
@@ -98,8 +163,6 @@ def imagen(ruta):
 
 def informacion():
     # Creo constantes
-    width = disp.width
-    height = disp.height
     padding = -2
     top = padding
     bottom = height-padding
@@ -110,10 +173,6 @@ def informacion():
 
     # Creo objeto sobre el que dibujar a partir de la imagen vacía
     draw = ImageDraw.Draw(image)
-
-    # Cargo la fuente
-    font = ImageFont.load_default()
-    # font = ImageFont.truetype('mifuente.ttf', 8)
 
     # Obtengo información del sistema
     cmd = "hostname -I | cut -d \' \' -f1"
@@ -137,7 +196,11 @@ def informacion():
     draw.text((x, top+8),  sanear(CPU), font=font, fill=255)
     draw.text((x, top+16), sanear(RAM),  font=font, fill=255)
     draw.text((x, top+24), sanear(HDD),  font=font, fill=255)
-    draw.text((x, top+32), 'Temperatura: ' + sanear(TMP),  font=font, fill=255)
+    draw.text(
+        (x, top+32),
+        'Temperatura: ' + sanear(TMP) + 'ºC',
+        font=font, fill=255
+    )
 
     # Mostrar imagen tras limpiar pantalla
     limpiar()
@@ -148,5 +211,5 @@ def informacion():
 inicializar()
 limpiar()
 animacion('Prueba')
-imagen('prueba.png')
-informacion()
+#imagen('prueba.png')
+#informacion()
