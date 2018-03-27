@@ -72,7 +72,24 @@ Ahora instalamos los paquetes para controlar la pantalla y manipular imágenes:
 
 ## Una vez instalado, mandar información a la pantalla
 
+En el script donde queramos mandar información a la pantalla importamos el
+script de funciones llamado **oled128X64** y a continuación ya podemos acceder
+a sus funciones pasándole los datos que deseamos pintar en la pantalla.
 
+Para importar lo hacemos así de simple:
+
+```python
+    import oled128x64
+```
+
+Una vez importado ya podemos acceder a todas las funciones pasándole la
+información que mostrará, para ello tenemos disponibles las siguientes
+funciones:
+
+-   animacion(texto, amplitude, offset, velocity). → Muestra el texto pasado
+                                                     como animación
+-   imagen(ruta) → Recibe la ruta hacia la imagen que será mostrada.
+-   informacion() → Muestra información sobre el estado de la raspberry.
 
 ## Librerías originales utilizadas
 
