@@ -5,6 +5,7 @@ Librería para trabajar con pantallas Oled de 128x64 píxeles que tengan el cont
 ## Objetivos
 
 Preparar el sistema y facilitar el manejo del chip SSD1306 para que pueda usarse de forma modular en otros programas:
+
 -   Instalarán libreras para python3 **Adafruit_SSD1306, Adafruit_GPIO, Pillow y RPi**
 
 ## Requisitos
@@ -68,6 +69,10 @@ Ahora instalamos los paquetes para controlar la pantalla y manipular imágenes:
 ```bash
     pip3 install Adafruit_SSD1306 Adafruit_GPIO Pillow RPi
 ```
+
+## Una vez instalado, mandar información a la pantalla
+
+
 
 ## Librerías originales utilizadas
 
