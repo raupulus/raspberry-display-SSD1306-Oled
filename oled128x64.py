@@ -53,20 +53,21 @@ font = ImageFont.load_default()  # Cargo la fuente
 
 
 #######################################
-# #             Variables           # #
-#######################################
-
-
-#######################################
 # #             Funciones           # #
 #######################################
 
 
 def inicializar():
+    """
+    Inicializa la pantalla para comenzar a trabajar
+    """
     disp.begin()
 
 
 def limpiar():
+    """
+    Limpia la pantalla borrando todo su contenido
+    """
     disp.clear()
     disp.display()
 
@@ -154,15 +155,11 @@ def imagen(ruta):
     Primero la convertirá a 1bit de color y luego la mostrará por pantalla.
     """
 
-    # TODO → Comprobar si existe la imagen en el sistema de archivos
-    existe = True
-
-    # Si existe la imagen se muestra, en caso contrario no hace nada.
-    if existe:
+    try:
         image = Image.open(ruta).resize(
             (width, height),
             Image.ANTIALIAS).convert('1')
-    else:
+    except Exception:
         return False
 
     # Mostrar imagen tras limpiar pantalla
