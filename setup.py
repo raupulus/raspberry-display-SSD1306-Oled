@@ -15,7 +15,15 @@
 #######################################
 # #           Descripción           # #
 #######################################
-
+# Script de acceso a la librería para la pantalla oled de 128x64 píxeles
+# con el controlador SSD1306 facilitando el acceso y el uso al proporcionar
+# funciones que nos permitirá trabajar con solo ordenar que quieres ver.
+#
+# Funciones disponibles:
+# animacion() → Recibe el texto para mostrarlo en forma de animación. Puede
+#               recibir como parámetros (texto, amplitude, offset, velocity).
+# imagen() → Recibe la ruta hacia la imagen que será mostrada.
+# informacion() → Muestra información sobre el estado de la raspberry.
 
 #######################################
 # #       Importar Librerías        # #
@@ -78,7 +86,7 @@ def sanear(limpiar):
     return x
 
 
-def animacion(texto):
+def animacion(texto, amplitude=height/4, offset=height/2 - 4, velocity=-2):
     """
     Recibe una cadena (o algo que se pueda transformar a cadena) y la muestra
     por la pantalla en forma de animación según los parámetros que pasamos a
@@ -93,33 +101,30 @@ def animacion(texto):
 
     maxwidth, unused = draw.textsize(texto, font=font)
 
-    # Parámetros para definir el tipo de animación
-    amplitude = height/4
-    offset = height/2 - 4
-    velocity = -2
-
     limpiar()
 
     pos = width
 
     while True:
         # Borra la pantalla antes de pintar.
-        draw.rectangle((0,0,width,height), outline=0, fill=0)
+        draw.rectangle((0, 0, width, height), outline=0, fill=0)
 
-        x = width
+        x = pos
         for i, c in enumerate(texto):
             # Al llegar al borde de la pantalla parar.
             if x > width:
                 break
 
-            # Calcula el ancho pero no dibuja si excede el ancho de la pantalla.
+            # Calcula el ancho pero no dibuja si excede el ancho de la pantalla
             if x < -10:
                 char_width, char_height = draw.textsize(c, font=font)
                 x += char_width
                 continue
 
             # Calcular el desplazamiento de la onda sinusoidal.
-            y = offset+math.floor(amplitude*math.sin(x/float(width)*2.0*math.pi))
+            y = offset+math.floor(
+                amplitude*math.sin(x/float(width)*2.0*math.pi)
+            )
 
             # Pinta el texto en su lugar.
             draw.text((x, y), c, font=font, fill=255)
@@ -217,6 +222,6 @@ def informacion():
 
 inicializar()
 limpiar()
-animacion('Prueba')
+#animacion('Prueba')
 #imagen('prueba.png')
 #informacion()
