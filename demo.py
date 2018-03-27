@@ -15,27 +15,15 @@
 #######################################
 # #           Descripción           # #
 #######################################
-
+# Script con ejemplos para ver el funcionamiento de la pantalla
 
 #######################################
 # #       Importar Librerías        # #
 #######################################
-import setup
+import oled128x64 as OLED
+import time
 
-
-#######################################
-# #            Constantes           # #
-#######################################
-
-
-#######################################
-# #             Variables           # #
-#######################################
-
-
-#######################################
-# #             Funciones           # #
-#######################################
-
-
-setup.animacion('Prueba')
+OLED.animacion('Esto es un texto de pruebas')
+time.sleep(5)
+OLED.informacion()
+time.sleep(5)
