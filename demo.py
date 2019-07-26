@@ -23,7 +23,7 @@
 import Oledssd1306
 import time
 
-oled = Oledssd1306.Oledssd1306
+oled = Oledssd1306.Oledssd1306()
 
 oled.animacion('Esto es un texto de pruebas')
 time.sleep(2)
@@ -37,6 +37,8 @@ oled.pintarLineas([
     'Linea 6',
     'Linea 7',
 ])
+
+time.sleep(10)
 
 while True:
     oled.informacion()

@@ -58,11 +58,19 @@ class Oledssd1306:
     FONT = ImageFont.load_default()  # Cargo la fuente
     #FONT = ImageFont.truetype('mifuente.ttf', 8)
 
-    def __init__(self, RST=24):
+    def __init__(self, rst=24, font=None):
         """
-        Inicializa la pantalla para comenzar a trabajar
+        Inicializa la pantalla para comenzar a trabajar.
+        :param rst Número del pin para configuración, por defecto 24:
+        :param font Ruta hacia la fuente personalizada (Opcional):
         """
-        self.RST = RST
+        self.RST = rst
+
+        # Cargo fuente personalizada si se suministra
+        if font:
+            self.FONT = ImageFont.truetype(font, 8)
+        else:
+            self.FONT = ImageFont.load_default()
 
         self.DISPLAY.begin()
 
@@ -166,7 +174,6 @@ class Oledssd1306:
             return False
 
         # Mostrar imagen tras limpiar pantalla
-        self.limpiar()
         self.DISPLAY.image(image)
         self.display()
 
@@ -194,8 +201,13 @@ class Oledssd1306:
         cmd = "hostname -I | cut -d \' \' -f1"
         IP = subprocess.check_output(cmd, shell=True)
 
-        cmd = "top -bn1 | grep load | awk '{printf \"CPU Load: %.2f\", $(NF-2)}'"
-        CPU = subprocess.check_output(cmd, shell=True)
+        # Obtengo la CPU
+        # cmd = "top -bn1 | grep load | awk '{printf "CPU Load: %.2f", $(NF-2)}'"
+        # CPU = subprocess.check_output(cmd, shell=True)
+        cmd = "uptime | cut -d ',' -f3-40 | cut -d ':' -f 2"
+        # n_cpu =  str(subprocess.check_output("nproc", shell=True))
+        cpu_parse = str(cmd.strip())
+        CPU = 'CPU' + str(subprocess.check_output(cpu_parse, shell=True))
 
         cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
         RAM = subprocess.check_output(cmd, shell=True)
@@ -219,7 +231,6 @@ class Oledssd1306:
         )
 
         # Mostrar imagen tras limpiar pantalla
-        self.limpiar()
         self.DISPLAY.image(image)
         self.DISPLAY.display()
 
@@ -247,6 +258,5 @@ class Oledssd1306:
             top += 8
 
         # Mostrar imagen tras limpiar pantalla
-        self.limpiar()
         self.DISPLAY.image(image)
         self.DISPLAY.display()
