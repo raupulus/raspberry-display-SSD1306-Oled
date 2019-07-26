@@ -20,10 +20,26 @@
 #######################################
 # #       Importar Librerías        # #
 #######################################
-import oled128x64 as OLED
+import Oledssd1306
 import time
 
-OLED.animacion('Esto es un texto de pruebas')
-time.sleep(5)
-OLED.informacion()
-time.sleep(5)
+oled = Oledssd1306.Oledssd1306()
+
+oled.animacion('Esto es un texto de pruebas')
+time.sleep(2)
+
+oled.pintarLineas([
+    'Linea 1',
+    'Linea 2',
+    'Linea 3',
+    'Linea 4',
+    'Linea 5',
+    'Linea 6',
+    'Linea 7',
+])
+
+time.sleep(10)
+
+while True:
+    oled.informacion()
+    time.sleep(5)
