@@ -34,7 +34,7 @@ También es posible descargar directamente el zip desde la interfaz web.
 Para  clonar este repositorio una vez disponemos de **git** en el sistema:
 
 ```bash
-    git clone https://github.com/fryntiz/Raspberry-Display-Oled-SSD1306.git $HOME/Display-Oled-SSD1306
+    git clone https://github.com/raupulus/raspberry-display-SSD1306-Oled.git $HOME/raspberry-display-SSD1306-Oled
 ```
 
 Este comando dejará en el directorio personal del usuario que lo ejecute la librería descargada, ya solo tenemos que acceder a ella y ejecutarla.
